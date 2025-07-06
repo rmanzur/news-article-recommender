@@ -1,5 +1,6 @@
 import streamlit as st
 from joblib import load
+import os
 
 st.title('Articles Recommended For You')
 
@@ -18,9 +19,13 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-article_df = load('/Users/rjmanzur/MIND_project/news_df.joblib')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+article_path = os.path.join(BASE_DIR,"news_df.joblib")
+similarity_path = os.path.join(BASE_DIR,"similarity.joblib")
+
+article_df = load(article_path)
 article_df_titles = article_df['title'].values
-similarity = load('/Users/rjmanzur/MIND_project/similarity.joblib')
+similarity = load(similarity_path)
 
 st.markdown('<div class="custom-label">Please select an article that you like from the list below:</div>', unsafe_allow_html=True)
 selected_article = st.selectbox('-->', article_df_titles)
