@@ -30,8 +30,14 @@ similarity = load(similarity_path)
 st.markdown('<div class="custom-label">Please select an article that you like from the list below:</div>', unsafe_allow_html=True)
 selected_article = st.selectbox('-->', article_df_titles)
 
+def recommend_articles(article): #baseline recommender model using tf-idf and cosine similarity
+    article_index = article_df[article_df['title'] == article].index[0]
+    similarity_scores = similarity[article_index]
+    article_list = sorted(list(enumerate(similarity[article_index])),reverse = True, key=lambda x: x[1])[1:6]
 
-def recommend_articles_within_category(article):
+    return [(article_df.iloc[i[0]].title) for i in article_list]
+
+def recommend_articles_within_category(article): #updated version of baseline model
     article_index = article_df[article_df['title'] == article].index[0]
     category = article_df.loc[article_df['title'] == article, 'category'].values[0]
     similarity_scores = similarity[article_index]
@@ -44,6 +50,12 @@ def recommend_articles_within_category(article):
     return [article_df.iloc[i[0]].title for i in filtered_list]
 
 if st.button('Recommend'):
-    recommendations = recommend_articles_within_category(selected_article)
-    for title in recommendations:
+    recommendations1 = recommend_articles(selected_article)
+    recommendations2 = recommend_articles_within_category(selected_article)
+
+    st.subheader("Recommended Articles using TF_IDF + cosine similarity")
+    for title in recommendations1:
+        st.write(title)
+    st.subheader("Recommended Articles using TF_IDF + cosine similarity + filtered by Category")
+    for title in recommendations2:
         st.write(title)
