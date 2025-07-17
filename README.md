@@ -23,3 +23,4 @@ In this project, I used TF-IDF in combination with cosine similarity to compute 
         - Density of high-similarity values: to control how many articles were considered similar, avoiding over-sparsity or over-clustering.
   * Model evaluation was performed through manual inspection of results, checking whether the top-ranked articles (based on cosine similarity) were contextually and semantically relevant to each query article.
   * To further refine results, the model was rerun to filter out results that did not match the category of the query article.
+![Image](https://github.com/user-attachments/assets/2141485c-c1ed-4a69-bbde-506e6345d209)
